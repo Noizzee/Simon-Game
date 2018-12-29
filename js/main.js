@@ -58,6 +58,6 @@ function play() {
   good = true;
   //Fill in the order array with 20 random numbers if you get 20 rounds you win the game
   for (let i = 0; i < 20; i++) {
-    order.push(Math.floor(Math.random() * 4 ) + 1);
+    order.push(Math.floor(Math.random() * 4 ) + 1); //Fill in the order array with 20 random numbers between 1 & 4
   }
 }
