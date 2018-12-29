@@ -26,7 +26,7 @@ strictButton.addEventListener('change', (event) => {
   } else {
     strict = false;
   }
-})
+});
 
 onButton.addEventListener('click', (event) => {
   if (onButton.checked == true) {
@@ -38,10 +38,26 @@ onButton.addEventListener('click', (event) => {
     clearColor(); //Function that will clear all the colors highlighted on the screen
     clearInterval(intervalId);
   }
-})
+});
 
 startButton.addEventListener('click', (event) => {
   if (on || win) {
     play(); //Function that will start the game
   }
-})
+});
+
+function play() {
+  //Reset the variables
+  win = false;
+  order = [];
+  playerOrder = [];
+  flash = 0;
+  intervalId = 0;
+  turn = 1;
+  turnCounter.textContent = 1;
+  good = true;
+  //Fill in the order array with 20 random numbers if you get 20 rounds you win the game
+  for (let i = 0; i < 20; i++) {
+    order.push(Math.floor(Math.random() * 4 ) + 1);
+  }
+}
