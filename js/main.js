@@ -4,7 +4,7 @@ let flash; // Number of flashes that appeared in the game
 let turn; // Keep track what turn we are on
 let good; // Boolean to check if the player has hit all the colors or not
 let compTurn; // Boolean to keep track whatever it is the players turn or the computers turn
-let intervalId;
+let intervalId; // We need this to clear the interval
 let strict = false; // Checks if the strict button is pressed or not
 let noise = true;
 let on = false; // Checks if the on button has been pressed or not
@@ -36,7 +36,7 @@ onButton.addEventListener('click', (event) => {
     on = false;
     turnCounter.textContent = "";
     clearColor(); //Function that will clear all the colors highlighted on the screen
-    clearInterval(intervalId);
+    clearInterval(intervalId); //Stops the gameTurn function
   }
 });
 
@@ -52,12 +52,14 @@ function play() {
   order = [];
   playerOrder = [];
   flash = 0;
-  intervalId = 0;
   turn = 1;
-  turnCounter.textContent = 1;
   good = true;
-  //Fill in the order array with 20 random numbers if you get 20 rounds you win the game
+  intervalId = 0;
+  turnCounter.textContent = 1;
+  //Fill in the order array with 20 random numbers, if you get 20 rounds you win the game
   for (let i = 0; i < 20; i++) {
     order.push(Math.floor(Math.random() * 4 ) + 1); //Fill in the order array with 20 random numbers between 1 & 4
   }
+  compTurn = true; //Computer turn
+  intervalId = setInterval(gameTurn, 800); //Will run the gameTurn function every 800ms
 }
