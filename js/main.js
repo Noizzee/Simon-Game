@@ -63,3 +63,66 @@ function play() {
   compTurn = true; //Computer turn
   intervalId = setInterval(gameTurn, 800); //Will run the gameTurn function every 800ms
 }
+
+function gameTurn() {
+  on = false;
+  if (flash == turn) {
+    clearInterval(intervalId);
+    compTurn = false;
+    clearColor();
+    on = true;
+  }
+  if (compTurn) {
+    clearColor();
+    setTimeout(() => {
+      if (order[flash] == 1) one(); //If the random number in the order array is 1, we run the one function
+      if (order[flash] == 2) two();
+      if (order[flash] == 3) three();
+      if (order[flash] == 4) four();
+      flash++; //Increment flash to check how many times the program has flashed lights
+    }, 200) //Will stop flashing for 200ms 
+  }
+}
+
+function one() {
+  if (noise) {
+    let audio = document.querySelector('#clip1');
+    audio.play();
+  }
+  noise = true;
+  topLeft.style.backgroundColor = "lightgreen";
+}
+
+function two() {
+  if (noise) {
+    let audio = document.querySelector('#clip2');
+    audio.play();
+  }
+  noise = true;
+  topRight.style.backgroundColor = "tomato";
+}
+
+function three() {
+  if (noise) {
+    let audio = document.querySelector('#clip3');
+    audio.play();
+  }
+  noise = true;
+  bottomLeft.style.backgroundColor = "yellow";
+}
+
+function four() {
+  if (noise) {
+    let audio = document.querySelector('#clip4');
+    audio.play();
+  }
+  noise = true;
+  bottomRight.style.backgroundColor = "lightskyblue";
+}
+//Function that will set the colors to default
+function clearColor() {
+  topLeft.style.backgroundColor = "darkgreen";
+  topRight.style.backgroundColor = "darkred";
+  bottomLeft.style.backgroundColor = "goldenrod";
+  bottomRight.style.backgroundColor = "darkblue";
+}
