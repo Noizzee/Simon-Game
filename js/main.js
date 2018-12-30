@@ -84,7 +84,7 @@ function gameTurn() {
   }
 }
 
-function one() {
+function one() { //Function that will light up top left color and play the audio clip
   if (noise) {
     let audio = document.querySelector('#clip1');
     audio.play();
@@ -93,7 +93,7 @@ function one() {
   topLeft.style.backgroundColor = "lightgreen";
 }
 
-function two() {
+function two() { //Function that will light up top right color and play the audio clip
   if (noise) {
     let audio = document.querySelector('#clip2');
     audio.play();
@@ -119,10 +119,109 @@ function four() {
   noise = true;
   bottomRight.style.backgroundColor = "lightskyblue";
 }
-//Function that will set the colors to default
-function clearColor() {
+
+function clearColor() {  //Function that will set the colors to default
   topLeft.style.backgroundColor = "darkgreen";
   topRight.style.backgroundColor = "darkred";
   bottomLeft.style.backgroundColor = "goldenrod";
   bottomRight.style.backgroundColor = "darkblue";
+}
+
+function flashColor() {
+  topLeft.style.backgroundColor = "lightgreen";
+  topRight.style.backgroundColor = "tomato";
+  bottomLeft.style.backgroundColor = "yellow";
+  bottomRight.style.backgroundColor = "lightskyblue";
+}
+
+topLeft.addEventListener('click', (event) => {
+  if (on) {
+    playerOrder.push(1);
+    check();
+    one();
+    if (!win) {
+      setTimeout(() => { //If player has not won yet, clear the color after 300ms
+        clearColor();
+      }, 300);
+    }
+  }
+});
+
+topRight.addEventListener('click', (event) => {
+  if (on) {
+    playerOrder.push(2);
+    check();
+    two();
+    if (!win) {
+      setTimeout(() => {
+        clearColor();
+      }, 300);
+    }
+  }
+});
+
+bottomLeft.addEventListener('click', (event) => {
+  if (on) {
+    playerOrder.push(3);
+    check();
+    three();
+    if (!win) {
+      setTimeout(() => {
+        clearColor();
+      }, 300);
+    }
+  }
+});
+
+bottomRight.addEventListener('click', (event) => {
+  if (on) {
+    playerOrder.push(4);
+    check();
+    four();
+    if (!win) {
+      setTimeout(() => {
+        clearColor();
+      }, 300);
+    }
+  }
+});
+
+function check() { //Function to check if the player color matches the computer color
+  if (playerOrder[playerOrder.length - 1] !== order[playerOrder.length - 1]) good = false;
+  if (playerOrder.length == 20 && good) { //Condition if the player wins the game
+    winGame();
+  }
+  if (good == false) { //Condition if the player has something wrong
+    flashColor();
+    turnCounter.textContent = "NO!";
+    setTimeout(() => {
+      turnCounter.textContent = turn;
+      clearColor();
+      if (strict) {
+        play(); //Starting the game over again if in strict mode
+      } else { //Starting over in current round
+        compTurn = true;
+        flash = 0;
+        playerOrder = [];
+        good = true;
+        intervalId = setInterval(gameTurn, 800);
+      }
+    }, 800);
+    noise = false;
+  }
+  if (turn == playerOrder.length && good && !win) { //Condition if the player gets everything correct
+    turn++;
+    playerOrder = [];
+    compTurn = true;
+    flash = 0;
+    turnCounter.textContent = turn;
+    intervalId = setInterval(gameTurn, 800);
+  }
+}
+
+function winGame() {
+  flashColor();
+  turnCounter.textContent = "WIN!";
+  on = false;
+  win = true;
 }
